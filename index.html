@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>My GitHub Page</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -29,10 +30,11 @@
 
         .twitter-timeline {
             width: 560px;
-            height: 600px; /* 調整したい縦のサイズ */
+            height: 600px;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="sidebar">
@@ -65,85 +67,86 @@
             <div id="tab4" class="tab-content">
                 <h1>Welcome to My GitHub Page!</h1>
                 <p>@sogonistaのプログラミングに関する取り組みについて情報発信しています</p>
-                
-                <h2>2023_Python_Study_code Repository</h2>
+
+                <h2>ReazonSpeech Repository</h2>
                 <div id="python-readme"></div>
                 <ul id="python-file-list"></ul>
 
-                <h2>2023_R_Study_Code Repository</h2>
-                <div id="r-readme"></div>
-                <iframe id="r-video" width="560" height="315" src="https://www.youtube.com/embed/BRg1Qnb96dk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <iframe id="r-video-2" width="560" height="315" src="https://www.youtube.com/embed/p9lDZY94U8w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <ul id="r-file-list"></ul>
-
-                <h2>2023_MachineLearning_Study Repository</h2>
+                <h2>VOSK Repository</h2>
                 <div id="ml-readme"></div>
                 <ul id="ml-file-list"></ul>
             </div>
         </div>
     </div>
-    
+
     <script>
-    // Load GitHub user data
-    fetch('https://api.github.com/users/sogonista')
-        .then(response => response.json())
-        .then(data => {
-            let profileDiv = document.getElementById('github-profile');
-            profileDiv.innerHTML = `
+        // Load GitHub user data
+        fetch('https://api.github.com/users/sogonista')
+            .then(response => response.json())
+            .then(data => {
+                let profileDiv = document.getElementById('github-profile');
+                profileDiv.innerHTML = `
                 <h3>${data.name} (@${data.login})</h3>
                 <p>About: ${data.bio}</p>
                 <p><img src="${data.avatar_url}" alt="Avatar" width="100"></p>
             `;
-        });
-
-    // Here would be the rest of your JavaScript code
-    const repositories = [
-        { name: '2023_Python_Study_code', readmeId: 'python-readme', elementId: 'python-file-list' },
-        { name: '2023_R_Study_Code', readmeId: 'r-readme', elementId: 'r-file-list' },
-        { name: '2023_MachineLearning_Study', readmeId: 'ml-readme', elementId: 'ml-file-list' },
-    ];
-
-    repositories.forEach(repo => {
-        fetch(`https://api.github.com/repos/sogonista/${repo.name}/contents/`)
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(file => {
-                    if (file.type === 'file') {
-                        let listItem = document.createElement('li');
-                        let link = document.createElement('a');
-                        link.href = file.html_url;  // Use the file's URL
-                        link.textContent = file.name;
-                        listItem.appendChild(link);
-                        document.querySelector(`#${repo.elementId}`).appendChild(listItem);
-
-                        if (file.name.toLowerCase() === 'readme.md') {
-                            fetch(file.url)
-                                .then(response => response.json())
-                                .then(readmeData => {
-                                    let markdown = atob(readmeData.content);
-                                    document.querySelector(`#${repo.readmeId}`).innerHTML = marked(markdown);
-                                })
-                                .catch(error => console.error(error));
-                        }
-                    }
-                });
-            })
-            .catch(error => console.error(error));
-    });
-
-    // Tab switch code
-    document.querySelectorAll('.tab-button').forEach(button => {
-        button.addEventListener('click', () => {
-            let target = button.dataset.target;
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
             });
-            document.querySelector(`#${target}`).classList.add('active');
-        });
-    });
 
-    // Load first tab initially
-    document.querySelector('.tab-button').click();
+        // Here would be the rest of your JavaScript code
+        const repositories = [{
+                name: 'ReazonSpeech',
+                readmeId: 'python-readme',
+                elementId: 'python-file-list'
+            },
+            {
+                name: 'VOSK',
+                readmeId: 'ml-readme',
+                elementId: 'ml-file-list'
+            },
+        ];
+
+        repositories.forEach(repo => {
+            fetch(`https://api.github.com/repos/sogonista/${repo.name}/contents/`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(file => {
+                        if (file.type === 'file') {
+                            let listItem = document.createElement('li');
+                            let link = document.createElement('a');
+                            link.href = file.html_url; // Use the file's URL
+                            link.textContent = file.name;
+                            listItem.appendChild(link);
+                            document.querySelector(`#${repo.elementId}`).appendChild(listItem);
+
+                            if (file.name.toLowerCase() === 'readme.md') {
+                                fetch(file.url)
+                                    .then(response => response.json())
+                                    .then(readmeData => {
+                                        let markdown = atob(readmeData.content);
+                                        document.querySelector(`#${repo.readmeId}`).innerHTML = marked(markdown);
+                                    })
+                                    .catch(error => console.error(error));
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error(error));
+        });
+
+        // Tab switch code
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                let target = button.dataset.target;
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`#${target}`).classList.add('active');
+            });
+        });
+
+        // Load first tab initially
+        document.querySelector('.tab-button').click();
     </script>
 </body>
+
 </html>
