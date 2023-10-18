@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <!-- 01.github.ioページのフレームの大きさを決めます -->
 <head>
     <meta charset="UTF-8">
@@ -16,32 +15,60 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        .owner {
+            display: flex;
+            align-items: center;
+        }
+
+        .owner img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
     </style>
 </head>
 
 <!-- 02.bodyを書いていきます -->
 <body>
-    <div class="content" id="reasonspeech-readme">
-        <!-- ReasonSpeech README will be displayed here -->
+    <div class="content">
+        <div class="owner" id="reasonspeech-owner"></div>
+        <div id="reasonspeech-readme"></div>
     </div>
 
-    <div class="content" id="sogonista-readme">
-        <!-- sogonista.github.io README will be displayed here -->
+    <div class="content">
+        <div class="owner" id="sogonista-owner"></div>
+        <div id="sogonista-readme"></div>
     </div>
 
     <script>
-        const fetchAndDisplayReadme = (repo, elementId) => {
-            fetch(`https://api.github.com/repos/${repo}/readme`)
+        const fetchAndDisplayRepoInfo = (repo, ownerElementId, readmeElementId) => {
+            fetch(`https://api.github.com/repos/${repo}`)
                 .then(response => response.json())
                 .then(data => {
-                    const markdown = atob(data.content);
-                    document.getElementById(elementId).innerHTML = marked(markdown);
+                    const ownerDiv = document.getElementById(ownerElementId);
+                    ownerDiv.innerHTML = `
+                        <img src="${data.owner.avatar_url}" alt="${data.owner.login}'s avatar">
+                        <span>${data.owner.login}</span>
+                    `;
+
+                    return fetch(data.contents_url.replace('{+path}', 'README.md'));
                 })
-                .catch(error => console.error('Error fetching README:', error));
+                .then(response => response.json())
+                .then(data => {
+                    if (data.content) {
+                        const markdown = atob(data.content);
+                        document.getElementById(readmeElementId).innerHTML = marked(markdown);
+                    } else {
+                        document.getElementById(readmeElementId).textContent = "READMEが見つかりません。";
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
         }
 
-        fetchAndDisplayReadme('sogonista/ReasonSpeech', 'reasonspeech-readme');
-        fetchAndDisplayReadme('sogonista/sogonista.github.io', 'sogonista-readme');
+        fetchAndDisplayRepoInfo('sogonista/ReasonSpeech', 'reasonspeech-owner', 'reasonspeech-readme');
+        fetchAndDisplayRepoInfo('sogonista/sogonista.github.io', 'sogonista-owner', 'sogonista-readme');
     </script>
 </body>
 
