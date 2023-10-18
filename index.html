@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+    
 <!-- 01.github.ioページのフレームの大きさを決めます -->
 <head>
     <meta charset="UTF-8">
@@ -7,18 +8,17 @@
     <title>GitHub README Display</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        .content {
+        .wrapper {
             width: 80%;
             margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: start;
         }
 
         .owner {
             display: flex;
             align-items: center;
+            margin-right: 20px;
         }
 
         .owner img {
@@ -27,19 +27,39 @@
             border-radius: 50%;
             margin-right: 10px;
         }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .repo-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 
 <!-- 02.bodyを書いていきます -->
 <body>
-    <div class="content">
+    <div class="wrapper">
         <div class="owner" id="reasonspeech-owner"></div>
-        <div id="reasonspeech-readme"></div>
+        <div class="content">
+            <div class="repo-name">ReasonSpeech</div>
+            <div id="reasonspeech-readme"></div>
+        </div>
     </div>
 
-    <div class="content">
+    <div class="wrapper">
         <div class="owner" id="sogonista-owner"></div>
-        <div id="sogonista-readme"></div>
+        <div class="content">
+            <div class="repo-name">sogonista.github.io</div>
+            <div id="sogonista-readme"></div>
+        </div>
     </div>
 
     <script>
