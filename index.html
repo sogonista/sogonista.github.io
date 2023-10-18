@@ -49,7 +49,8 @@
     <div class="wrapper">
         <div class="owner" id="reasonspeech-owner"></div>
         <div class="content">
-            <div class="repo-name">ReasonSpeech</div>
+            <!-- こちらにリンクを追加 -->
+            <a href="https://github.com/sogonista/ReasonSpeech" class="repo-name" target="_blank">ReasonSpeech</a>
             <div id="reasonspeech-readme"></div>
         </div>
     </div>
@@ -73,7 +74,12 @@
                         <span>${data.owner.login}</span>
                     `;
 
-                    return fetch(data.contents_url.replace('{+path}', 'README.md'));
+                    // sogonista.github.io の README の場合のURL変更
+                    const readmeUrl = repo === 'sogonista/sogonista.github.io' ? 
+                        'https://github.com/sogonista/sogonista.github.io#readme' : 
+                        data.contents_url.replace('{+path}', 'README.md');
+
+                    return fetch(readmeUrl);
                 })
                 .then(response => response.json())
                 .then(data => {
