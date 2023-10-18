@@ -47,18 +47,21 @@
 <!-- 02.bodyを書いていきます -->
 <body>
     <div class="wrapper">
+        <!-- こちらにプロフィールアイコンを追加 -->
         <div class="owner" id="reasonspeech-owner"></div>
+    </div>
+    <div class="wrapper">
         <div class="content">
-            <!-- こちらにリンクを追加 -->
+            <!-- こちらにReazonSpeechリンクを追加 -->
             <a href="https://github.com/sogonista/ReasonSpeech" class="repo-name" target="_blank">ReasonSpeech</a>
             <div id="reasonspeech-readme"></div>
         </div>
     </div>
-
     <div class="wrapper">
         <div class="content">
-            <div class="repo-name">sogonista.github.io</div>
-            <div id="sogonista-readme"></div>
+            <!-- こちらにVOSKのリンクを追加 -->
+            <a href="https://github.com/sogonista/VOSK" class="repo-name" target="_blank">VOSK</a>
+            <div id="VOSK-readme"></div>
         </div>
     </div>
 
@@ -72,13 +75,6 @@
                         <img src="${data.owner.avatar_url}" alt="${data.owner.login}'s avatar">
                         <span>${data.owner.login}</span>
                     `;
-
-                    // sogonista.github.io の README の場合のURL変更
-                    const readmeUrl = repo === 'sogonista/sogonista.github.io' ? 
-                        'https://github.com/sogonista/sogonista.github.io#readme' : 
-                        data.contents_url.replace('{+path}', 'README.md');
-
-                    return fetch(readmeUrl);
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -91,9 +87,8 @@
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
-
         fetchAndDisplayRepoInfo('sogonista/ReasonSpeech', 'reasonspeech-owner', 'reasonspeech-readme');
-        fetchAndDisplayRepoInfo('sogonista/sogonista.github.io', 'sogonista-owner', 'sogonista-readme');
+        fetchAndDisplayRepoInfo('sogonista/VOSK', 'VOSK-owner', 'VOSK-readme');
     </script>
 </body>
 
