@@ -142,7 +142,7 @@
                     const markdown = atob(data.content);
                     document.getElementById(readmeElementId).innerHTML = marked(markdown);
                 } else {
-                    document.getElementById(readmeElementId).textContent = "READMEが見つかりません。";
+                    document.getElementById(readmeElementId).textContent = "現在公開しておりません。";
                 }
             })
             .catch(error => console.error('Error fetching data:', error));
