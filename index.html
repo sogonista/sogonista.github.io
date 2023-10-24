@@ -126,8 +126,8 @@
         fetch(`https://api.github.com/repos/${repo}`)
             .then(response => response.json())
             .then(data => {
-                // プロフィールアイコンを最初のリポジトリだけに表示
-                if (ownerElementId === 'ReasonSpeech-owner') {
+                // プロフィールアイコンをsogonista.github.io-ownerだけに表示
+                if (ownerElementId === 'sogonista.github.io-owner') {
                     const ownerDiv = document.getElementById(ownerElementId);
                     ownerDiv.innerHTML = `
                         <img src="${data.owner.avatar_url}" alt="${data.owner.login}'s avatar">
@@ -136,27 +136,30 @@
                 }
                 return fetch(`https://api.github.com/repos/${repo}/readme`);
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.content) {
-                    const markdown = atob(data.content);
-                    document.getElementById(readmeElementId).innerHTML = marked(markdown);
-                } else {
-                    document.getElementById(readmeElementId).textContent = "現在公開しておりません。";
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('README not found');
                 }
+                return response.json();
             })
-            .catch(error => console.error('Error fetching data:', error));
+            .then(data => {
+                const markdown = atob(data.content);
+                document.getElementById(readmeElementId).innerHTML = marked(markdown);
+            })
+            .catch(error => {
+                document.getElementById(readmeElementId).textContent = "現在公開しておりません。";
+            });
     }
-    fetchAndDisplayRepoInfo('sogonista/ReasonSpeech', 'ReasonSpeech-owner', 'ReasonsSpeech-readme');
-    fetchAndDisplayRepoInfo('sogonista/VOSK', 'VOSK-owner', 'VOSK-readme');
-    fetchAndDisplayRepoInfo('sogonista/MovieTextApp', 'MovieTextApp-owner', 'MovieTextApp-readme');
-    fetchAndDisplayRepoInfo('sogonista/mainstream', 'mainstream-owner', 'mainstream-readme');
-    fetchAndDisplayRepoInfo('sogonista/BERTResponseSystem', 'BERTResponseSystem-owner', 'BERTResponseSystem-readme');
-    fetchAndDisplayRepoInfo('sogonista/SogoShogiAI', 'SogoShogiAI-owner', 'SogoShogiAI-readme');
-    fetchAndDisplayRepoInfo('sogonista/CNNOpenCV', 'CNNOpenCV-owner', 'CNNOpenCV-readme');
-    fetchAndDisplayRepoInfo('sogonista/YoloText', 'YoloText-owner', 'YoloText-readme');
-    fetchAndDisplayRepoInfo('sogonista/xrealair', 'xrealair-owner', 'xrealair-readme');
-    fetchAndDisplayRepoInfo('sogonista/voicechat', 'voicechat-owner', 'voicechat-readme');
+        fetchAndDisplayRepoInfo('sogonista/ReasonSpeech', 'ReasonSpeech-owner', 'ReasonsSpeech-readme');
+        fetchAndDisplayRepoInfo('sogonista/VOSK', 'VOSK-owner', 'VOSK-readme');
+        fetchAndDisplayRepoInfo('sogonista/MovieTextApp', 'MovieTextApp-owner', 'MovieTextApp-readme');
+        fetchAndDisplayRepoInfo('sogonista/mainstream', 'mainstream-owner', 'mainstream-readme');
+        fetchAndDisplayRepoInfo('sogonista/BERTResponseSystem', 'BERTResponseSystem-owner', 'BERTResponseSystem-readme');
+        fetchAndDisplayRepoInfo('sogonista/SogoShogiAI', 'SogoShogiAI-owner', 'SogoShogiAI-readme');
+        fetchAndDisplayRepoInfo('sogonista/CNNOpenCV', 'CNNOpenCV-owner', 'CNNOpenCV-readme');
+        fetchAndDisplayRepoInfo('sogonista/YoloText', 'YoloText-owner', 'YoloText-readme');
+        fetchAndDisplayRepoInfo('sogonista/xrealair', 'xrealair-owner', 'xrealair-readme');
+        fetchAndDisplayRepoInfo('sogonista/voicechat', 'voicechat-owner', 'voicechat-readme');
     </script>
 </body>
 
