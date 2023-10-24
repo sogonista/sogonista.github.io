@@ -48,7 +48,7 @@
 <body>
     <div class="wrapper">
         <!-- こちらにプロフィールアイコンを追加 -->
-        <div class="owner" id="sogonista.github.io-owner"></div>
+        <div class="owner" id="ReasonSpeech-owner"></div>
     </div>
     <div class="wrapper">
         <div class="content">
@@ -126,8 +126,8 @@
         fetch(`https://api.github.com/repos/${repo}`)
             .then(response => response.json())
             .then(data => {
-                // プロフィールアイコンをsogonista.github.io-ownerだけに表示
-                if (ownerElementId === 'sogonista.github.io-owner') {
+                // プロフィールアイコンをReazonSpeech-ownerだけに表示
+                if (ownerElementId === 'ReasonSpeech-owner') {
                     const ownerDiv = document.getElementById(ownerElementId);
                     ownerDiv.innerHTML = `
                         <img src="${data.owner.avatar_url}" alt="${data.owner.login}'s avatar">
